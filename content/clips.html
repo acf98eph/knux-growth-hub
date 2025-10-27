@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Featured Clips | Knux Growth Hub</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html">Home</a>
+    <a href="updates.html">Updates</a>
+    <a href="clips.html" class="active">Clips</a>
+    <a href="requests.html">Requests</a>
+  </nav>
+
+  <header>
+    <h1>🎥 Featured Clips</h1>
+    <p>Watch Knux's top Twitch and YouTube highlights here.</p>
+  </header>
+
+  <main>
+    <section class="gallery">
+      <article class="clip-card">
+        <div class="clip">
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/placeholderID1" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="clip-description">YouTube Highlight – Crowd-favorite clutch moment (Oct 2025).</p>
+      </article>
+
+      <article class="clip-card">
+        <div class="clip">
+          <iframe src="https://clips.twitch.tv/embed?clip=PlaceholderClipID&parent=localhost" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="clip-description">Twitch Clip – Live match hype reel (Oct 2025).</p>
+      </article>
+
+      <article class="clip-card">
+        <div class="clip">
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/placeholderID2" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="clip-description">YouTube Highlight – Strategy breakdown session (Oct 2025).</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Knux Growth Hub | Made for KnuxChaotix</p>
+    <small>Demo Mode Active &ndash; Private Access Only</small>
+  </footer>
+
+  <script>
+    (function () {
+      const ACCESS_KEY = 'knuxDemoAccess';
+      const REQUIRED_PASSWORD = 'knux2025';
+
+      if (sessionStorage.getItem(ACCESS_KEY) === 'true') {
+        return;
+      }
+
+      const attempt = window.prompt('Enter password to continue:');
+      if (attempt !== REQUIRED_PASSWORD) {
+        window.location.href = '../denied.html';
+        return;
+      }
+
+      sessionStorage.setItem(ACCESS_KEY, 'true');
+    })();
+  </script>
+</body>
+</html>

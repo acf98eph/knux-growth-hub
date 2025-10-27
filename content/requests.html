@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave a Request | Knux Growth Hub</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html">Home</a>
+    <a href="updates.html">Updates</a>
+    <a href="clips.html">Clips</a>
+    <a href="requests.html" class="active">Requests</a>
+  </nav>
+
+  <header>
+    <h1>💬 Leave a Request</h1>
+    <p>Use this form to share ideas, questions, or feedback.</p>
+  </header>
+
+  <main>
+    <section>
+      <form action="https://formspree.io/f/example" method="POST" class="request-form">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button type="submit">Submit Request</button>
+      </form>
+
+      <p class="fallback-link">If the form doesn't load, <a href="https://formspree.io/f/example" target="_blank">click here</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Knux Growth Hub | Made for KnuxChaotix</p>
+    <small>Demo Mode Active &ndash; Private Access Only</small>
+  </footer>
+
+  <script>
+    (function () {
+      const ACCESS_KEY = 'knuxDemoAccess';
+      const REQUIRED_PASSWORD = 'knux2025';
+
+      if (sessionStorage.getItem(ACCESS_KEY) === 'true') {
+        return;
+      }
+
+      const attempt = window.prompt('Enter password to continue:');
+      if (attempt !== REQUIRED_PASSWORD) {
+        window.location.href = '../denied.html';
+        return;
+      }
+
+      sessionStorage.setItem(ACCESS_KEY, 'true');
+    })();
+  </script>
+</body>
+</html>

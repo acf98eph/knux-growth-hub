@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Updates | Knux Growth Hub</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html">Home</a>
+    <a href="updates.html" class="active">Updates</a>
+    <a href="clips.html">Clips</a>
+    <a href="requests.html">Requests</a>
+  </nav>
+
+  <header>
+    <h1>📋 Growth Updates Log</h1>
+    <p>Tracking key changes and ideas for Knux's growth roadmap.</p>
+  </header>
+
+  <main>
+    <section class="updates-list">
+      <article class="update-card">
+        <h2>Update #1 – Bio & Titles</h2>
+        <p><strong>Date:</strong> Oct 27 2025</p>
+        <p>Refreshed profile bios and stream titles to highlight Knux's unique energy and community vibe.</p>
+      </article>
+
+      <article class="update-card">
+        <h2>Update #2 – Featured Clip Plan</h2>
+        <p><strong>Date:</strong> Oct 27 2025</p>
+        <p>Outlined the weekly featured clip rotation to spotlight clutch plays and community highlights.</p>
+      </article>
+
+      <article class="update-card">
+        <h2>Update #3 – Next Steps</h2>
+        <p><strong>Date:</strong> Oct 28 2025</p>
+        <p>Planning upcoming growth experiments, including targeted collaborations and viewer challenges.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Knux Growth Hub | Made for KnuxChaotix</p>
+    <small>Demo Mode Active &ndash; Private Access Only</small>
+  </footer>
+
+  <script>
+    (function () {
+      const ACCESS_KEY = 'knuxDemoAccess';
+      const REQUIRED_PASSWORD = 'knux2025';
+
+      if (sessionStorage.getItem(ACCESS_KEY) === 'true') {
+        return;
+      }
+
+      const attempt = window.prompt('Enter password to continue:');
+      if (attempt !== REQUIRED_PASSWORD) {
+        window.location.href = '../denied.html';
+        return;
+      }
+
+      sessionStorage.setItem(ACCESS_KEY, 'true');
+    })();
+  </script>
+</body>
+</html>

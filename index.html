@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knux Growth Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="content/updates.html">Updates</a>
+    <a href="content/clips.html">Clips</a>
+    <a href="content/requests.html">Requests</a>
+  </nav>
+
+  <header>
+    <h1>🎮 Knux Growth Hub</h1>
+    <p>Your central spot for updates, clips, and growth ideas.</p>
+  </header>
+
+  <main>
+    <section id="updates">
+      <h2>📋 Growth Updates</h2>
+      <p>Welcome to the hub! This is where I'll post ideas, AI tips, and new strategies to help Knux grow his Twitch channel.</p>
+      <p><a href="content/updates.html">View All Updates</a></p>
+    </section>
+
+    <section id="clips">
+      <h2>🎥 Featured Clips</h2>
+      <p>Latest highlights and viral moments from Knux's streams.</p>
+      <div class="clip">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/yourclipid" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section id="requests">
+      <h2>💬 Leave a Request</h2>
+      <p><a href="https://forms.gle/yourformlink" target="_blank">Click here</a> to send requests, ideas, or feedback.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Knux Growth Hub | Made for KnuxChaotix</p>
+    <small>Demo Mode Active &ndash; Private Access Only</small>
+  </footer>
+
+  <script>
+    (function () {
+      const ACCESS_KEY = 'knuxDemoAccess';
+      const REQUIRED_PASSWORD = 'knux2025';
+
+      if (sessionStorage.getItem(ACCESS_KEY) === 'true') {
+        return;
+      }
+
+      const attempt = window.prompt('Enter password to continue:');
+      if (attempt !== REQUIRED_PASSWORD) {
+        window.location.href = 'denied.html';
+        return;
+      }
+
+      sessionStorage.setItem(ACCESS_KEY, 'true');
+    })();
+  </script>
+</body>
+</html>
