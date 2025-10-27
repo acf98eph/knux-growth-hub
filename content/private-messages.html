@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages | Knux Growth Hub</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html">Home</a>
+    <a href="updates.html">Updates</a>
+    <a href="clips.html">Clips</a>
+    <a href="requests.html">Requests</a>
+    <a href="user-profile.html">Profile</a>
+    <a href="private-messages.html" class="active">Messages</a>
+    <a href="uploads.html">Uploads</a>
+    <a href="progress-tracker.html">Projects</a>
+    <a href="api-hub.html">API Hub</a>
+  </nav>
+
+  <header>
+    <h1>📬 Private Messages</h1>
+    <p>Demo inbox showcasing how collaborators can reach Knux. Sending is disabled while in Demo Mode.</p>
+  </header>
+
+  <main data-module="messages">
+    <section class="messaging-layout">
+      <aside class="thread-list">
+        <h2>Inbox</h2>
+        <ul class="thread-items"></ul>
+      </aside>
+
+      <section class="message-thread">
+        <div class="thread-header">
+          <h2>Select a thread</h2>
+          <p>Choose a conversation to review messages.</p>
+        </div>
+        <div class="thread-messages"></div>
+        <form class="thread-composer" aria-disabled="true">
+          <label for="message-draft">Reply</label>
+          <textarea id="message-draft" rows="3" placeholder="Sending is disabled in Demo Mode." disabled></textarea>
+          <div class="composer-actions">
+            <button type="button" disabled title="Disabled in Demo Mode">Send</button>
+          </div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Knux Growth Hub | Made for KnuxChaotix</p>
+    <small>Demo Mode Active &ndash; Private Access Only</small>
+  </footer>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    (function () {
+      const ACCESS_KEY = 'knuxDemoAccess';
+      const REQUIRED_PASSWORD = 'knux2025';
+
+      if (sessionStorage.getItem(ACCESS_KEY) === 'true') {
+        return;
+      }
+
+      const attempt = window.prompt('Enter password to continue:');
+      if (attempt !== REQUIRED_PASSWORD) {
+        window.location.href = '../denied.html';
+        return;
+      }
+
+      sessionStorage.setItem(ACCESS_KEY, 'true');
+    })();
+  </script>
+</body>
+</html>

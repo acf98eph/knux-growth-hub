@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Hub | Knux Growth Hub</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html">Home</a>
+    <a href="updates.html">Updates</a>
+    <a href="clips.html">Clips</a>
+    <a href="requests.html">Requests</a>
+    <a href="user-profile.html">Profile</a>
+    <a href="private-messages.html">Messages</a>
+    <a href="uploads.html">Uploads</a>
+    <a href="progress-tracker.html">Projects</a>
+    <a href="api-hub.html" class="active">API Hub</a>
+  </nav>
+
+  <header>
+    <h1>🛠️ API Integration Hub</h1>
+    <p>Plan future integrations with a unified control panel. Demo Mode shows simulated connectors.</p>
+  </header>
+
+  <main data-module="api-hub">
+    <section class="api-grid">
+      <article class="api-card" data-service="youtube">
+        <div class="api-header">
+          <h2>YouTube Analytics</h2>
+          <label class="switch">
+            <input type="checkbox" data-api-toggle="youtube">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p>Monitor channel performance, video metrics, and subscriber trends once connected.</p>
+        <button type="button" data-api-test="youtube">Run Demo Ping</button>
+      </article>
+
+      <article class="api-card" data-service="twitch">
+        <div class="api-header">
+          <h2>Twitch Streams</h2>
+          <label class="switch">
+            <input type="checkbox" data-api-toggle="twitch">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p>Sync live stream stats, chat events, and extension triggers from Knux's channel.</p>
+        <button type="button" data-api-test="twitch">Run Demo Ping</button>
+      </article>
+
+      <article class="api-card" data-service="notion">
+        <div class="api-header">
+          <h2>Notion Database</h2>
+          <label class="switch">
+            <input type="checkbox" data-api-toggle="notion">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p>Connect planning docs and growth experiments directly to your content calendar.</p>
+        <button type="button" data-api-test="notion">Run Demo Ping</button>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Knux Growth Hub | Made for KnuxChaotix</p>
+    <small>Demo Mode Active &ndash; Private Access Only</small>
+  </footer>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    (function () {
+      const ACCESS_KEY = 'knuxDemoAccess';
+      const REQUIRED_PASSWORD = 'knux2025';
+
+      if (sessionStorage.getItem(ACCESS_KEY) === 'true') {
+        return;
+      }
+
+      const attempt = window.prompt('Enter password to continue:');
+      if (attempt !== REQUIRED_PASSWORD) {
+        window.location.href = '../denied.html';
+        return;
+      }
+
+      sessionStorage.setItem(ACCESS_KEY, 'true');
+    })();
+  </script>
+</body>
+</html>

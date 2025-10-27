@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile | Knux Growth Hub</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="../index.html">Home</a>
+    <a href="updates.html">Updates</a>
+    <a href="clips.html">Clips</a>
+    <a href="requests.html">Requests</a>
+    <a href="user-profile.html" class="active">Profile</a>
+    <a href="private-messages.html">Messages</a>
+    <a href="uploads.html">Uploads</a>
+    <a href="progress-tracker.html">Projects</a>
+    <a href="api-hub.html">API Hub</a>
+  </nav>
+
+  <header>
+    <h1>🧑‍🚀 User Profile</h1>
+    <p>Customize your Knux Growth Hub identity. Changes are saved locally in your browser.</p>
+  </header>
+
+  <main data-module="profile">
+    <section class="profile-layout">
+      <div class="profile-card">
+        <div class="avatar-wrapper">
+          <img id="profile-avatar" alt="Profile avatar" data-default-avatar="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTIwJyBoZWlnaHQ9JzEyMCcgdmlld0JveD0nMCAwIDEyMCAxMjAnIHhtbG5zPScodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PGNpcmNsZSBjeD0nNjAnIGN5PSc0MCcgcj0nMzInIGZpbGw9JyM0NDQ0NTUnIC8+PGNpcmNsZSBjeD0nNjAnIGN5PSc0MCcgcj0nMjgnIGZpbGw9JyNmNWY1ZjUnIC8+PHBhdGggZD0nTTIwIDExMGMxNS0yMCAzNS0zMCA0MC0zMHM2NSA4IDEwNSA0MScgZmlsbD0nIzQ0NDQ1NScgZD0nTTIwIDExMGMxNS0yMCAzNS0zMCA0MC0zMHM2NSA4IDEwNSA0MScgZmlsbD0nIzQ0NDQ1NScvPjwvc3ZnPg==">
+          <button type="button" id="change-avatar">Change Avatar</button>
+          <input type="file" id="avatar-input" accept="image/*" hidden>
+        </div>
+        <div class="profile-fields">
+          <label for="display-name">Display Name</label>
+          <input type="text" id="display-name" placeholder="Enter your display name">
+
+          <label for="bio">Bio</label>
+          <textarea id="bio" rows="4" placeholder="Share a short intro or mission statement..."></textarea>
+
+          <div class="profile-actions">
+            <button type="button" id="clear-profile" class="secondary">Reset Profile</button>
+            <button type="button" id="sync-account">Sync Placeholder</button>
+          </div>
+          <p class="save-status" data-status>Changes autosave in Demo Mode.</p>
+        </div>
+      </div>
+
+      <aside class="profile-preview">
+        <h2>Preview Card</h2>
+        <div class="preview-card">
+          <img src="" alt="Preview avatar" id="preview-avatar">
+          <div class="preview-info">
+            <h3 id="preview-name">Knux Adventurer</h3>
+            <p id="preview-bio">Set your bio to let collaborators know who you are and what you’re building.</p>
+          </div>
+        </div>
+        <p class="note">Avatar, name, and bio sync locally. “Sync Placeholder” will hook into the future account system.</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Knux Growth Hub | Made for KnuxChaotix</p>
+    <small>Demo Mode Active &ndash; Private Access Only</small>
+  </footer>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    (function () {
+      const ACCESS_KEY = 'knuxDemoAccess';
+      const REQUIRED_PASSWORD = 'knux2025';
+
+      if (sessionStorage.getItem(ACCESS_KEY) === 'true') {
+        return;
+      }
+
+      const attempt = window.prompt('Enter password to continue:');
+      if (attempt !== REQUIRED_PASSWORD) {
+        window.location.href = '../denied.html';
+        return;
+      }
+
+      sessionStorage.setItem(ACCESS_KEY, 'true');
+    })();
+  </script>
+</body>
+</html>

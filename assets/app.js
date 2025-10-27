@@ -2,7 +2,74 @@
   const MUSIC_KEY = 'musicEnabled';
   const THEME_KEY = 'knuxTheme';
   const LAST_COMMIT_KEY = 'lastCommitSha';
+  const PROFILE_KEY = 'knuxProfile';
   const NOTIFICATION_LIMIT = 10;
+  const DEFAULT_AVATAR =
+    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNjAiIGN5PSI0MCIgcj0iMzIiIGZpbGw9IiM0NDQ0NTUiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjQwIiByPSIyOCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utb3BhY2l0eT0iMC4yIiBmaWxsPSIjZjVmNWY1Ii8+PHBhdGggZD0iTTIwIDExMGMxNS0yMCAzNS0zMCA0MC0zMHM2NSA4IDEwNSA0MSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utb3BhY2l0eT0iMC4xIiBmaWxsPSIjNDQ0NDU1Ii8+PC9zdmc+';
+
+  const DEMO_THREADS = [
+    {
+      id: 'welcome',
+      title: 'Knux Team',
+      preview: 'Thanks for the assets drop!',
+      time: 'Oct 27 • 4:02 PM',
+      messages: [
+        { sender: 'knux', body: 'Huge thanks for the latest asset pack—branding feels sharper already!', time: 'Oct 27 • 4:02 PM' },
+        { sender: 'you', body: 'Glad it landed well. Next set coming tomorrow.', time: 'Oct 27 • 4:03 PM' }
+      ]
+    },
+    {
+      id: 'collab',
+      title: 'Creator Collab Pitch',
+      preview: 'Let’s lock in that co-stream date.',
+      time: 'Oct 26 • 1:20 PM',
+      messages: [
+        { sender: 'you', body: 'Drafted a co-stream outline—sent the doc for a quick look.', time: 'Oct 26 • 1:18 PM' },
+        { sender: 'knux', body: 'Looks great! Let’s lock in Friday 7 PM.', time: 'Oct 26 • 1:20 PM' }
+      ]
+    },
+    {
+      id: 'sponsorship',
+      title: 'Sponsorship Follow-up',
+      preview: 'Reminder: Deck review tomorrow.',
+      time: 'Oct 25 • 9:45 AM',
+      messages: [
+        { sender: 'knux', body: 'Reminder so we don’t miss it—deck review tomorrow morning.', time: 'Oct 25 • 9:45 AM' },
+        { sender: 'you', body: 'Booked on the calendar! Bringing fresh talking points.', time: 'Oct 25 • 10:00 AM' }
+      ]
+    }
+  ];
+
+  const DEMO_PROJECTS = [
+    {
+      name: 'Channel Branding Refresh',
+      status: 'Planning',
+      due: 'Kickoff Nov 1',
+      progress: 20,
+      summary: 'Collect updated overlays, alerts, and starting soon packages.'
+    },
+    {
+      name: 'Featured Clip Series',
+      status: 'In Progress',
+      due: 'Next drop Oct 30',
+      progress: 55,
+      summary: 'Publish weekly highlight reel across Shorts, TikTok, and Reels.'
+    },
+    {
+      name: 'Community Night',
+      status: 'In Progress',
+      due: 'Event Nov 5',
+      progress: 40,
+      summary: 'Coordinate Discord poll, prizes, and mod schedule.'
+    },
+    {
+      name: 'Newsletter Launch',
+      status: 'Done',
+      due: 'Launched Oct 20',
+      progress: 100,
+      summary: 'Growth recap newsletter now live with 350 subscribers.'
+    }
+  ];
 
   ready(() => {
     initMusicToggle();
@@ -11,6 +78,11 @@
     initAiAssistant();
     initAdminConsoleShortcut();
     initLiveCommitFeed();
+    initUserProfile();
+    initMessagingDemo();
+    initUploadCenter();
+    initProjectTracker();
+    initApiHub();
     demoNotifications();
   });
 
@@ -33,7 +105,7 @@
 
     const btn = document.createElement('button');
     btn.id = 'music-toggle';
-    btn.textContent = '🔊 Music On';
+    btn.textContent = '\uD83D\uDD0A Music On';
     document.body.appendChild(btn);
 
     let enabled = localStorage.getItem(MUSIC_KEY);
@@ -42,17 +114,17 @@
     if (enabled) {
       music.play().catch(() => {});
     } else {
-      btn.textContent = '🔇 Music Off';
+      btn.textContent = '\uD83D\uDD07 Music Off';
     }
 
     btn.addEventListener('click', () => {
       enabled = !enabled;
       if (enabled) {
         music.play();
-        btn.textContent = '🔊 Music On';
+        btn.textContent = '\uD83D\uDD0A Music On';
       } else {
         music.pause();
-        btn.textContent = '🔇 Music Off';
+        btn.textContent = '\uD83D\uDD07 Music Off';
       }
       localStorage.setItem(MUSIC_KEY, String(enabled));
     });
@@ -65,7 +137,7 @@
 
     const bell = document.createElement('button');
     bell.id = 'notification-bell';
-    bell.innerHTML = '🔔';
+    bell.innerHTML = '\uD83D\uDD14';
 
     const panel = document.createElement('div');
     panel.id = 'notification-panel';
@@ -75,7 +147,7 @@
         <button id="clear-notifications">Clear</button>
       </div>
       <ul class="notification-list"></ul>
-      <p class="empty-state">All quiet for now! 🚀</p>
+      <p class="empty-state">All quiet for now! \uD83D\uDE80</p>
     `;
 
     document.body.appendChild(bell);
@@ -86,7 +158,7 @@
       bell.classList.remove('has-alert');
     });
 
-    document.getElementById('clear-notifications').addEventListener('click', () => {
+    panel.querySelector('#clear-notifications').addEventListener('click', () => {
       const list = panel.querySelector('.notification-list');
       list.innerHTML = '';
       panel.classList.remove('has-items');
@@ -126,7 +198,6 @@
   }
 
   function demoNotifications() {
-    // Demo mode notifications to showcase behaviour
     setTimeout(() => pushNotification('Demo alert: Weekly goals updated.'), 7000);
     setTimeout(() => pushNotification('Demo alert: New clip ready for review.'), 14000);
   }
@@ -140,7 +211,7 @@
     const wrapper = document.createElement('div');
     wrapper.id = 'theme-toggle';
     wrapper.innerHTML = `
-      <button id="theme-button">⚙️</button>
+      <button id="theme-button">\u2699\uFE0F</button>
       <div class="theme-panel">
         <h3>Theme Customizer</h3>
         <label><input type="radio" name="theme-choice" value="dark"> Dark Default</label>
@@ -196,11 +267,11 @@
     const container = document.createElement('div');
     container.id = 'ai-assistant';
     container.innerHTML = `
-      <button id="ai-toggle">🤖</button>
+      <button id="ai-toggle">\uD83E\uDD16</button>
       <div class="ai-panel">
         <header>
           <h3>Knux AI Assistant</h3>
-          <button id="ai-close">✖</button>
+          <button id="ai-close">\u2716</button>
         </header>
         <div class="ai-messages">
           <div class="ai-message bot">Hi! I'm the demo AI. Ask me about growth ideas, stream tips, or content plans.</div>
@@ -257,13 +328,13 @@
     container.scrollTop = container.scrollHeight;
   }
 
-  function generateAiReply(input) {
+  function generateAiReply() {
     const responses = [
       'Consider promoting your next stream on social media an hour beforehand for a quick bump.',
-      'Clipping clutch plays into vertical shorts can drive discoverability fast.',
+      'Clipping clutch plays into vertical shorts can boost discoverability fast.',
       'Try engaging your chat with a themed question at the top of every stream.',
-      'Look at your analytics for peak viewer times—consistency there pays off.',
-      'Pair up with another creator for a co-stream to reach fresh audiences.'
+      'Check analytics for peak viewer times—consistency there pays off.',
+      'Pairing with another creator for a co-stream is a quick way to reach fresh audiences.'
     ];
     const idx = Math.floor(Math.random() * responses.length);
     return responses[idx];
@@ -296,14 +367,14 @@
     overlay.id = 'admin-console';
     overlay.innerHTML = `
       <div class="admin-box">
-        <h2>🔐 Knux Admin Console</h2>
+        <h2>\uD83D\uDD10 Knux Admin Console</h2>
         <label>Access Key:</label>
         <input type="password" id="admin-pass" placeholder="Enter key (knux2025)">
         <button id="admin-login">Login</button>
         <div id="admin-content" style="display:none;">
           <h3>Quick Update Tools</h3>
-          <button id="update-logs">📄 Update Growth Logs</button>
-          <button id="add-clip">🎬 Add New Clip</button>
+          <button id="update-logs">\uD83D\uDCC4 Update Growth Logs</button>
+          <button id="add-clip">\uD83C\uDFAC Add New Clip</button>
           <textarea id="admin-text" placeholder="Paste new HTML snippet or message..."></textarea>
           <p class="note">Changes are local only. Copy output to GitHub manually to publish.</p>
           <div class="analytics-grid">
@@ -345,20 +416,20 @@
         content.style.display = 'block';
         initializeAnalytics(content);
       } else {
-        alert('❌ Wrong key!');
+        alert('\u274C Wrong key!');
       }
     });
 
     overlay.querySelector('#update-logs').addEventListener('click', () => {
       const snippet = overlay.querySelector('#admin-text').value;
       console.log('Growth log update snippet:', snippet);
-      alert('✅ Snippet saved to console. Copy and paste it into updates.html on GitHub.');
+      alert('\u2705 Snippet saved to console. Copy and paste it into updates.html on GitHub.');
     });
 
     overlay.querySelector('#add-clip').addEventListener('click', () => {
       const snippet = overlay.querySelector('#admin-text').value;
       console.log('New clip HTML snippet:', snippet);
-      alert('✅ Clip embed saved to console. Add it in clips.html manually.');
+      alert('\u2705 Clip embed saved to console. Add it in clips.html manually.');
     });
   }
 
@@ -506,5 +577,337 @@
     }
     fetchCommits();
     setInterval(fetchCommits, 60000);
+  }
+
+  function initUserProfile() {
+    const root = document.querySelector('[data-module="profile"]');
+    if (!root) {
+      return;
+    }
+
+    const avatarImg = root.querySelector('#profile-avatar');
+    const previewAvatar = root.querySelector('#preview-avatar');
+    const changeAvatarBtn = root.querySelector('#change-avatar');
+    const avatarInput = root.querySelector('#avatar-input');
+    const nameInput = root.querySelector('#display-name');
+    const bioInput = root.querySelector('#bio');
+    const statusEl = root.querySelector('[data-status]');
+    const previewName = root.querySelector('#preview-name');
+    const previewBio = root.querySelector('#preview-bio');
+    const clearBtn = root.querySelector('#clear-profile');
+    const syncBtn = root.querySelector('#sync-account');
+
+    const stored = safeParse(localStorage.getItem(PROFILE_KEY)) || {};
+
+    const avatarSource = stored.avatar || avatarImg?.dataset.defaultAvatar || DEFAULT_AVATAR;
+    avatarImg.src = avatarSource;
+    previewAvatar.src = avatarSource;
+
+    nameInput.value = stored.name || '';
+    bioInput.value = stored.bio || '';
+
+    previewName.textContent = nameInput.value || 'Knux Adventurer';
+    previewBio.textContent =
+      bioInput.value || 'Set your bio to let collaborators know who you are and what you’re building.';
+
+    changeAvatarBtn.addEventListener('click', () => avatarInput.click());
+
+    avatarInput.addEventListener('change', () => {
+      const file = avatarInput.files?.[0];
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Please choose an image file for the avatar.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        avatarImg.src = reader.result;
+        previewAvatar.src = reader.result;
+        persistProfile({ avatar: reader.result });
+      };
+      reader.readAsDataURL(file);
+    });
+
+    nameInput.addEventListener('input', () => {
+      const value = nameInput.value.trim();
+      previewName.textContent = value || 'Knux Adventurer';
+      persistProfile({ name: value });
+    });
+
+    bioInput.addEventListener('input', () => {
+      const value = bioInput.value.trim();
+      previewBio.textContent =
+        value || 'Set your bio to let collaborators know who you are and what you’re building.';
+      persistProfile({ bio: value });
+    });
+
+    clearBtn.addEventListener('click', () => {
+      avatarImg.src = DEFAULT_AVATAR;
+      previewAvatar.src = DEFAULT_AVATAR;
+      nameInput.value = '';
+      bioInput.value = '';
+      previewName.textContent = 'Knux Adventurer';
+      previewBio.textContent =
+        'Set your bio to let collaborators know who you are and what you’re building.';
+      localStorage.removeItem(PROFILE_KEY);
+      announce('Profile reset.');
+    });
+
+    syncBtn.addEventListener('click', () => {
+      alert('Demo placeholder: Sync will hook into the future account system.');
+    });
+
+    function persistProfile(updates) {
+      const current = safeParse(localStorage.getItem(PROFILE_KEY)) || {};
+      const next = { ...current, ...updates };
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(next));
+      announce('Profile saved locally.');
+    }
+
+    function announce(message) {
+      if (!statusEl) {
+        return;
+      }
+      statusEl.textContent = message;
+      statusEl.classList.add('active');
+      setTimeout(() => statusEl.classList.remove('active'), 1800);
+    }
+  }
+
+  function initMessagingDemo() {
+    const root = document.querySelector('[data-module="messages"]');
+    if (!root) {
+      return;
+    }
+
+    const listEl = root.querySelector('.thread-items');
+    const messagesEl = root.querySelector('.thread-messages');
+    const headerTitle = root.querySelector('.thread-header h2');
+    const headerSubtitle = root.querySelector('.thread-header p');
+
+    listEl.innerHTML = '';
+
+    DEMO_THREADS.forEach((thread, index) => {
+      const li = document.createElement('li');
+      li.className = 'thread-item';
+      li.dataset.threadId = thread.id;
+      li.innerHTML = `
+        <h3>${thread.title}</h3>
+        <p>${thread.preview}</p>
+        <time>${thread.time}</time>
+      `;
+      li.addEventListener('click', () => renderThread(thread.id));
+      if (index === 0) {
+        li.classList.add('active');
+      }
+      listEl.appendChild(li);
+    });
+
+    renderThread(DEMO_THREADS[0].id);
+
+    function renderThread(id) {
+      const thread = DEMO_THREADS.find((item) => item.id === id);
+      if (!thread) {
+        return;
+      }
+
+      listEl.querySelectorAll('.thread-item').forEach((li) => {
+        li.classList.toggle('active', li.dataset.threadId === id);
+      });
+
+      headerTitle.textContent = thread.title;
+      headerSubtitle.textContent = `Last message: ${thread.time}`;
+
+      messagesEl.innerHTML = '';
+      thread.messages.forEach((message) => {
+        const bubble = document.createElement('div');
+        bubble.className = `message-bubble ${message.sender === 'knux' ? 'from-knux' : 'from-user'}`;
+        bubble.innerHTML = `
+          <p>${message.body}</p>
+          <span class="message-meta">${message.time}</span>
+        `;
+        messagesEl.appendChild(bubble);
+      });
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+  }
+
+  function initUploadCenter() {
+    const root = document.querySelector('[data-module="uploads"]');
+    if (!root) {
+      return;
+    }
+
+    const dropzone = root.querySelector('#upload-dropzone');
+    const browseBtn = root.querySelector('#upload-browse');
+    const input = root.querySelector('#upload-input');
+    const filterSelect = root.querySelector('#upload-filter');
+    const list = root.querySelector('#upload-list');
+
+    const handleFiles = (files) => {
+      const filter = filterSelect.value;
+      Array.from(files)
+        .filter((file) => matchesFilter(file, filter))
+        .forEach(simulateUpload);
+
+      const rejected = Array.from(files).filter((file) => !matchesFilter(file, filter));
+      if (rejected.length > 0) {
+        pushNotification(`${rejected.length} file(s) skipped by filter.`);
+      }
+    };
+
+    dropzone.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', (event) => {
+      event.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (event.dataTransfer?.files) {
+        handleFiles(event.dataTransfer.files);
+      }
+    });
+
+    dropzone.addEventListener('click', () => input.click());
+    browseBtn.addEventListener('click', () => input.click());
+
+    input.addEventListener('change', () => {
+      if (input.files) {
+        handleFiles(input.files);
+        input.value = '';
+      }
+    });
+
+    function simulateUpload(file) {
+      const item = document.createElement('li');
+      item.className = 'upload-item';
+      item.innerHTML = `
+        <span class="file-name">${file.name}</span>
+        <span class="file-meta">${formatBytes(file.size)} • ${file.type || 'Unknown type'}</span>
+        <div class="upload-progress"><span></span></div>
+        <span class="upload-status">Starting upload...</span>
+      `;
+      list.prepend(item);
+
+      const bar = item.querySelector('.upload-progress span');
+      const status = item.querySelector('.upload-status');
+      let progress = 0;
+
+      const timer = setInterval(() => {
+        progress += Math.random() * 25 + 10;
+        if (progress >= 100) {
+          progress = 100;
+        }
+        bar.style.width = `${progress}%`;
+        status.textContent = progress < 100 ? `Uploading… ${Math.round(progress)}%` : 'Upload complete!';
+
+        if (progress === 100) {
+          clearInterval(timer);
+          pushNotification(`Upload finished: ${file.name}`);
+          setTimeout(() => {
+            status.textContent = 'Ready for review.';
+          }, 1500);
+        }
+      }, 350);
+    }
+  }
+
+  function matchesFilter(file, filter) {
+    const name = file.name.toLowerCase();
+    switch (filter) {
+      case 'images':
+        return file.type.startsWith('image/');
+      case 'docs':
+        return (
+          file.type === 'application/pdf' ||
+          file.type ===
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+          name.endsWith('.pdf') ||
+          name.endsWith('.docx')
+        );
+      case 'zips':
+        return name.endsWith('.zip');
+      default:
+        return true;
+    }
+  }
+
+  function formatBytes(bytes) {
+    if (!Number.isFinite(bytes) || bytes <= 0) {
+      return '0 B';
+    }
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`;
+  }
+
+  function initProjectTracker() {
+    const root = document.querySelector('[data-module="projects"]');
+    if (!root) {
+      return;
+    }
+
+    const list = root.querySelector('#project-list');
+    list.innerHTML = '';
+
+    DEMO_PROJECTS.forEach((project) => {
+      const card = document.createElement('article');
+      card.className = 'project-card';
+
+      const statusClass = {
+        Planning: 'status-planning',
+        'In Progress': 'status-progress',
+        Done: 'status-done'
+      }[project.status] || 'status-progress';
+
+      card.innerHTML = `
+        <header>
+          <h3>${project.name}</h3>
+          <span class="status-pill ${statusClass}">${project.status}</span>
+        </header>
+        <p>${project.summary}</p>
+        <div class="progress-track"><span style="width:${project.progress}%"></span></div>
+        <footer>Next milestone: ${project.due}</footer>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function initApiHub() {
+    const root = document.querySelector('[data-module="api-hub"]');
+    if (!root) {
+      return;
+    }
+
+    root.querySelectorAll('[data-api-toggle]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const service = input.dataset.apiToggle || 'integration';
+        const state = input.checked ? 'enabled' : 'disabled';
+        pushNotification(`Demo: ${service} ${state}.`);
+      });
+    });
+
+    root.querySelectorAll('[data-api-test]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const service = button.dataset.apiTest;
+        alert(`Demo ping sent to ${service} integration. Real API wiring coming soon!`);
+      });
+    });
+  }
+
+  function initAdminConsole() {
+    // placeholder to mirror older API; we expose openAdminConsole via shortcut only
+  }
+
+  function safeParse(value) {
+    try {
+      return value ? JSON.parse(value) : null;
+    } catch {
+      return null;
+    }
   }
 })();
