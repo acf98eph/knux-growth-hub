@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="welcome-screen">
+    <img src="assets/logo.png" alt="Knux Logo" id="welcome-logo">
+    <h1>Welcome to Knux Growth Hub</h1>
+    <p>Loading your access portal...</p>
+  </div>
   <nav class="site-nav">
     <a href="index.html" class="active">Home</a>
     <a href="content/updates.html">Updates</a>
@@ -45,6 +50,23 @@
     <small>Demo Mode Active &ndash; Private Access Only</small>
   </footer>
 
+  <div id="access-granted">
+    <h1>ACCESS GRANTED</h1>
+  </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      const screen = document.getElementById("welcome-screen");
+      setTimeout(() => {
+        if (screen) {
+          screen.style.display = "none";
+        }
+      }, 4000);
+    });
+  </script>
+
+  <script src="assets/app.js"></script>
+
   <script>
     (function () {
       const ACCESS_KEY = 'knuxDemoAccess';
@@ -58,6 +80,20 @@
       if (attempt !== REQUIRED_PASSWORD) {
         window.location.href = 'denied.html';
         return;
+      }
+
+      const grantOverlay = document.getElementById("access-granted");
+      if (grantOverlay) {
+        grantOverlay.style.display = "flex";
+        grantOverlay.style.visibility = "visible";
+        grantOverlay.style.opacity = "1";
+        grantOverlay.style.animation = "none";
+        void grantOverlay.offsetWidth;
+        grantOverlay.style.animation = "grantFade 1.5s ease-in-out forwards";
+        grantOverlay.style.animationPlayState = "running";
+        setTimeout(() => {
+          grantOverlay.style.display = "none";
+        }, 1500);
       }
 
       sessionStorage.setItem(ACCESS_KEY, 'true');
